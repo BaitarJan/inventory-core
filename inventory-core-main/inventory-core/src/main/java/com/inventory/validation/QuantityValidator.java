@@ -20,4 +20,12 @@ public class QuantityValidator {
 
         return true;
     }
+
+    public boolean isValidQuantity(double quantity) {
+        if (quantity <= 0) {
+            System.out.println("Quantity must be greater than 0");
+            return false;
+        }
+        return true;
+    }
 }

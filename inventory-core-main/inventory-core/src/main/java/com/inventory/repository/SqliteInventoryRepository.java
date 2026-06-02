@@ -66,5 +66,29 @@ public class SqliteInventoryRepository implements InventoryRepository {
 
         return 0;
     }
+
+    @Override
+    public void removeStock(int productId, double quantity) {
+
+        String sql =
+                "UPDATE inventory " +
+                        "SET quantity = quantity - ? " +
+                        "WHERE product_id = ?";
+
+        try (PreparedStatement ps =
+                     conn.prepareStatement(sql)) {
+
+            ps.setDouble(1, quantity);
+            ps.setInt(2, productId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
 

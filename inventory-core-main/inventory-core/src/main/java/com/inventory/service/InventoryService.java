@@ -28,4 +28,42 @@ public class InventoryService {
 
         System.out.println("Stock added");
     }
+
+    public void stockOut(String barcode,
+                         double quantity) {
+
+        Product product =
+                productRepository.findByBarcode(barcode);
+
+        if (product == null) {
+            System.out.println("Product not found");
+            return;
+        }
+
+        double current =
+                inventoryRepository.getQuantity(
+                        product.getId()
+                );
+
+        if (current < quantity) {
+            System.out.println(
+                    "Not enough stock. Current: "
+                            + current
+            );
+            return;
+        }
+
+        inventoryRepository.removeStock(
+                product.getId(),
+                quantity
+        );
+
+        System.out.println(
+                "Stock removed. Remaining: "
+                        + (current - quantity)
+        );
+    }
+
+
+
 }

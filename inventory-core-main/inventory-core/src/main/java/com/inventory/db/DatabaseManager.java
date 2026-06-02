@@ -14,8 +14,7 @@ public class DatabaseManager {
     }
 
     public static void init() {
-        try (Connection conn = connect();
-             Statement stmt = conn.createStatement()) {
+        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
             stmt.execute("PRAGMA foreign_keys = ON");
             stmt.execute("""
                                 CREATE TABLE IF NOT EXISTS products (
@@ -30,9 +29,39 @@ public class DatabaseManager {
             stmt.execute("""
                            CREATE TABLE IF NOT EXISTS inventory (
                                product_id INTEGER PRIMARY KEY,
-                               quantity REAL NOT NULL DEFAULT 0,
+                               quantity REAL NOT NULL DEFAULT 0 CHECK(quantity >= 0),
                                package_size REAL,
                                FOREIGN KEY(product_id) REFERENCES products(id)
+                           );
+                    """);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void stock_movements() {
+        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
+            stmt.execute("PRAGMA foreign_keys = ON");
+            stmt.execute("""
+                               CREATE TABLE IF NOT EXISTS stock_movements (
+                                        id INTEGER PRIMARY KEY AUTOINCREMENT,             
+                                        product_id INTEGER NOT NULL,
+                                        quantity REAL NOT NULL,
+                                        type TEXT NOT NULL,                                   
+                                        created_at TEXT NOT NULL                          
+                                          );                                
+                    
+                                                    
+                    """);
+
+            stmt.execute("""
+                           CREATE TABLE IF NOT EXISTS inventory (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,             
+                                        product_id INTEGER NOT NULL,
+                                        quantity REAL NOT NULL CHECK(quantity >= 0),
+                                        type TEXT NOT NULL,                                   
+                                        created_at TEXT NOT NULL 
                            );
                     """);
 
