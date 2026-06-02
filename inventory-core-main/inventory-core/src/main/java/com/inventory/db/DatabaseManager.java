@@ -50,6 +50,7 @@ public class DatabaseManager {
                                         quantity REAL NOT NULL,
                                         type TEXT NOT NULL,                                   
                                         created_at TEXT NOT NULL                          
+                                       
                                           );                                
                     
                                                     
@@ -62,6 +63,7 @@ public class DatabaseManager {
                                         quantity REAL NOT NULL CHECK(quantity >= 0),
                                         type TEXT NOT NULL,                                   
                                         created_at TEXT NOT NULL 
+                                        FOREIGN KEY(product_id) REFERENCES products(id)
                            );
                     """);
 

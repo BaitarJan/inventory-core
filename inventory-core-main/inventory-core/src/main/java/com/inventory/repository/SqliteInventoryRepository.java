@@ -1,5 +1,7 @@
 package com.inventory.repository;
 
+import com.inventory.model.StockMovement;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,6 +46,10 @@ public class SqliteInventoryRepository implements InventoryRepository {
             e.printStackTrace();
         }
     }
+
+
+
+
 
     @Override
     public double getQuantity(int productId) {
